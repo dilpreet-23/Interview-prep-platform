@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import Input from '../../components/Inputs/Input';
+import Input from '../../components/inputs/Input';
+import ProfilePhotoSelector from '../../components/inputs/ProfilePhotoSelector';
+import { validateEmail } from '../../utils/helper';
 
-
-const Signup = (setCurrentPage) => {
+const SignUp = ({ setCurrentPage }) => {
   const [profilePic, setProfilePic] = useState(null);
   const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
@@ -13,14 +14,44 @@ const Signup = (setCurrentPage) => {
 
   const navigate = useNavigate();
 
-  // handle signup form submit 
+  //handle signup form submit 
   const handleSignUp = async (e) => {
     e.preventDefault();
+
+    let profileImageUrl = "";
+
+    if (!fullName) {
+      setError("Please enter full name.");
+      return;
+    }
+
+    if (!validateEmail(email)) {
+      setError("Please enter a valid email address.");
+      return;
+    }
+
+    if (!password) {
+      setError("Please enter the password.");
+      return;
+    }
+
+    setError("");
+
+    //SignUp API Call
+    try {
+    } catch (error) {
+      if (error.response && error.response.data.message) {
+        setError(error.response.data.message);
+      } else {
+        setError("Something went wrong. Plese try again.");
+      }
+    }
   };
 
-  return 
-    <div className="w-[90vw] md:w-[33vw] p-7 flex flex-col justify-center">
-      <h3 className="text-lg font-semibold text-black">Create an Account</h3>
+  return  <div className="w-[90vw] md:w-[33vw] p-7 flex flex-col justify-center">
+    <h3 className="text-lg font-semibold text-black">
+      Create an Account 
+    </h3>
       <p className="text-xs text-slate-700 mt-[5px] mb-6">
         Join us today by entering your details below.
       </p>
@@ -34,10 +65,10 @@ const Signup = (setCurrentPage) => {
           value={fullName}
           onChange={({ target }) => setFullName(target.value)}
           label="Full Name"
-          placeholder="Dilpreet"
+          placeholder="Preet"
           type="text"
           />
-          
+
           <Input
           value={email}
           onChange={({ target }) => setEmail(target.value)}
