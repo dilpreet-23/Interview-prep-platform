@@ -6,6 +6,9 @@ const ProfileInfoCard = () => {
   const { user, clearUser } = useContext(UserContext);
   const navigate = useNavigate();
 
+  console.log("User Data:", user);
+  console.log("Profile URL:", user?.profileImageUrl);
+
   const handleLogout = () => {
     localStorage.clear();
     clearUser();
@@ -15,10 +18,15 @@ const ProfileInfoCard = () => {
   return (
     user && (
     <div className="flex items-center">
-      <img 
-      src={user.profileImageUrl}
-      alt=""
-      className="w-11 h-11 bg-gray-300 rounded-full mr-3"
+      <img
+         src={user?.profileImageUrl}
+         alt="profile"
+         onLoad={() => console.log("IMAGE LOADED")}
+         onError={(e) => {
+         console.log("IMAGE FAILED");
+         console.log(e.target.src);
+         }}
+      className="w-11 h-11 rounded-full mr-3 object-cover object-center bg-gray-300"
       />
     <div>
       <div 
