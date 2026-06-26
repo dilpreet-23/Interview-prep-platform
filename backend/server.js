@@ -26,6 +26,11 @@ connectDB();
 //Middleware 
 app.use(express.json());
 
+// Home Route
+app.get("/", (req, res) => {
+  res.send("Interview Prep AI Backend is Running ");
+});
+
 //Routes 
 app.use('/api/auth', authRoutes);
 app.use('/api/sessions', sessionRoutes);
